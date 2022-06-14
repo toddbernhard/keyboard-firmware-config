@@ -2,6 +2,7 @@
 #include "version.h"
 #include "keymap_us_international.h"
 
+#include "g/keymap_combo.h"
 
 #define LSA_T(kc) MT(MOD_LSFT | MOD_LALT, kc)
 #define MOON_LED_LEVEL LED_LEVEL
@@ -298,4 +299,3 @@ void dance_0_reset(qk_tap_dance_state_t *state, void *user_data) {
 qk_tap_dance_action_t tap_dance_actions[] = {
         [DANCE_0] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, dance_0_finished, dance_0_reset),
 };
-
