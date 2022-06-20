@@ -47,6 +47,7 @@ def deal_with_cli_arguments():
                         help='path to a checkout of the qmk_firmware repo.'
                              ' required, or can be set via QMK_FIRMWARE_REPO.')
     parser.add_argument('--runtime', metavar='docker|podman', help="containerization runtime. detected if not set.")
+    parser.add_argument('--qmk-keyboard-path')
     parser.add_argument('--alt-get-keyboards', type=bool, metavar='true|false',
                         default=os.environ.get('ALT_GET_KEYBOARDS', True), help='defaults to true',)
     parser.add_argument('--skip-git', default=os.environ.get('SKIP_GIT'))
@@ -74,11 +75,12 @@ def deal_with_cli_arguments():
 
 def get_docker_command(args) -> str:
     board = args['keyboard']
+    board_path = args['qmk_keyboard_path'] if args['qmk_keyboard_path'] else board
     kmap = args['keymap']
 
     qmk_mount = f'{os.path.abspath(args["qmk_repo"])}:/qmk_firmware'
     keyboard_mount = f'{os.getcwd()}/{board}/src:' \
-                     f'/qmk_firmware/keyboards/{board}/keymaps/{kmap}'
+                     f'/qmk_firmware/keyboards/{board_path}/keymaps/{kmap}'
 
     environment = f' -e ALT_GET_KEYBOARDS={args["alt_get_keyboards"]}' \
                   f' -e SKIP_GIT={args["skip_git"]}' if args['skip_git'] else '' \
@@ -90,7 +92,7 @@ def get_docker_command(args) -> str:
         f' -v {keyboard_mount}' \
         f' {environment}' \
         f' qmkfm/qmk_cli' \
-        f' make {board}:{kmap}'
+        f' make {board_path}:{kmap}'
 
     return command
 
@@ -101,6 +103,6 @@ if __name__ == '__main__':
 
     command = get_docker_command(args)
 
-    logger.warning(f'Running: {command}')
+    logger.warning(f'Running:\n{command}\n')
 
     os.system(command)

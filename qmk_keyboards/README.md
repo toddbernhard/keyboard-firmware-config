@@ -28,4 +28,5 @@ defaults to true
 ```
 
 Supports:
+- [Adalyn](./adalyn) by MarvPFV and Tominabox
 - ZSA [Moonlander](./moonlander) Mk1
