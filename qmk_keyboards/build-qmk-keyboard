@@ -1,0 +1,106 @@
+#!/usr/bin/env python3
+
+import argparse
+import logging
+import os
+import shutil
+import subprocess
+from typing import List
+
+_supported_keyboards = None
+
+logger = logging.getLogger(__name__)
+
+
+def get_supported_keyboards() -> List[str]:
+    global _supported_keyboards
+    if not _supported_keyboards:
+        # seems a bit hacky but works for now
+        keyboards = [d for d in os.listdir('.') if os.path.isdir(d)]
+        keyboards.remove('user-space')
+        _supported_keyboards = keyboards
+    return _supported_keyboards
+
+
+def deal_with_cli_arguments():
+    description = '\n  .  '.join(
+        ['Supports building custom QMK firmware for the following keyboards:']
+        + get_supported_keyboards()
+    )
+
+    parser = argparse.ArgumentParser(
+        prog='build-qmk-keyboard',
+        usage='%(prog)s [options] keyboard [keymap]',
+        description=description,
+        formatter_class=argparse.RawTextHelpFormatter
+    )
+
+    def environ_or_required(key):
+        return (
+            {'default': os.environ.get(key)} if os.environ.get(key)
+            else {'required': True}
+        )
+
+    parser.add_argument('keyboard', choices=get_supported_keyboards(), help='one of above keyboards', metavar='keyboard')
+    parser.add_argument('keymap', nargs='?', default='toddbernhard')
+    parser.add_argument('--qmk-repo', **environ_or_required('QMK_FIRMWARE_REPO'),
+                        help='path to a checkout of the qmk_firmware repo.'
+                             ' required, or can be set via QMK_FIRMWARE_REPO.')
+    parser.add_argument('--runtime', metavar='docker|podman', help="containerization runtime. detected if not set.")
+    parser.add_argument('--alt-get-keyboards', type=bool, metavar='true|false',
+                        default=os.environ.get('ALT_GET_KEYBOARDS', True), help='defaults to true',)
+    parser.add_argument('--skip-git', default=os.environ.get('SKIP_GIT'))
+    parser.add_argument('--makeflags', default=os.environ.get('MAKEFLAGS'))
+
+    args = vars(parser.parse_args())
+
+    if not args.get('runtime'):
+        if 'RUNTIME' in os.environ:
+            args['runtime'] = os.environ['RUNTIME']
+        elif shutil.which('docker'):
+            args['runtime'] = 'docker'
+        elif shutil.which('podman'):
+            args['runtime'] = 'podman'
+
+    if args.get('runtime') not in ('docker', 'podman'):
+        logger.error(
+              'Error: no compatible container runtime found. '
+              'Either podman or docker are required.'
+              )
+        exit(2)
+
+    return args
+
+
+def get_docker_command(args) -> str:
+    board = args['keyboard']
+    kmap = args['keymap']
+
+    qmk_mount = f'{os.path.abspath(args["qmk_repo"])}:/qmk_firmware'
+    keyboard_mount = f'{os.getcwd()}/{board}/src:' \
+                     f'/qmk_firmware/keyboards/{board}/keymaps/{kmap}'
+
+    environment = f' -e ALT_GET_KEYBOARDS={args["alt_get_keyboards"]}' \
+                  f' -e SKIP_GIT={args["skip_git"]}' if args['skip_git'] else '' \
+                  f' -e MAKEFLAGS={args["makeflags"]}' if args['makeflags'] else ''
+
+    command = args['runtime'] + ' run --rm -it' \
+        f' -w /qmk_firmware' \
+        f' -v {qmk_mount}' \
+        f' -v {keyboard_mount}' \
+        f' {environment}' \
+        f' qmkfm/qmk_cli' \
+        f' make {board}:{kmap}'
+
+    return command
+
+
+if __name__ == '__main__':
+    args = deal_with_cli_arguments()
+    logger.debug(f'Parsed arguments: {args}')
+
+    command = get_docker_command(args)
+
+    logger.warning(f'Running: {command}')
+
+    os.system(command)
