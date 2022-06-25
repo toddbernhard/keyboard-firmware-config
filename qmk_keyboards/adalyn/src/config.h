@@ -1,9 +1,4 @@
 #pragma once
 
-#define IGNORE_MOD_TAP_INTERRUPT
-#define TAPPING_TERM 210
-#define TAPPING_TERM_PER_KEY
-#define PERMISSIVE_HOLD
-
-#define COMBO_TERM 50
-#define COMBO_COUNT 4
+#define MODTAPS
+#define TEST_SOME

@@ -4,6 +4,6 @@ Board:
 Build:
 ```shell
 cd ..
-./build-qmk-keyboard moonlander
+./build-qmk-keyboard --userspace yes moonlander
 ```
 
