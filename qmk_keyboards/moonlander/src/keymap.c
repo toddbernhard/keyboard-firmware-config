@@ -1,17 +1,19 @@
 #include QMK_KEYBOARD_H
 #include "version.h"
-#include "keymap_us_international.h"
 
 #include "userspace.h"
 
-#define LSA_T(kc) MT(MOD_LSFT | MOD_LALT, kc)
-#define MOON_LED_LEVEL LED_LEVEL
 
 #define LAYOUT_expand(...) LAYOUT_moonlander(__VA_ARGS__)
 
 
 #define KC_NO_14 KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
-#define KC____ KC_TRANSPARENT
+
+#define KC___ KC_TRANSPARENT
+#define KC_AUD_DN KC_AUDIO_VOL_DOWN
+#define KC_AUD_UP KC_AUDIO_VOL_UP
+#define KC_AUD_M KC_AUDIO_MUTE
+#define LYR_CLR TOGGLE_LAYER_COLOR
 
 enum custom_keycodes {
   RGB_SLD = ML_SAFE_RANGE,
@@ -26,43 +28,43 @@ enum tap_dance_codes {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [0] = LAYOUT_expand(
     KC_NO_14
-    KC_NO, DVORAK_1L    KC_NO,  KC_NO,   DVORAK_1R   KC_NO,
-    KC_NO, DVORAK_2L    KC_NO,  KC_NO,   DVORAK_2R   KC_NO,
-    KC_NO, DVORAK_3LSC                   DVORAK_3RSC KC_NO,
-    KC_NO, KC_TAB, KC_GRAVE, KC_NO, KC_NO, TO(4),     TO(4), KC_NO, KC_NO, KC_RALT, KC_RCTRL, KC_NO,
-                               LT(1,KC_SPACE), KC_LGUI, MO(3),  KC_NO, KC_LSHIFT, LT(2,KC_BSPACE)
+    KC_NO, DVORAK_1L     KC_NO,  KC_NO,  DVORAK_1R     KC_NO,
+    KC_NO, DVORAK_2L     KC_NO,  KC_NO,  DVORAK_2R     KC_NO,
+    KC_NO, DVORAK_3LSCA                  DVORAK_3RSCA  KC_NO,
+    KC_NO, KC_TAB, MO(3), KC_NO, KC_NO, TO(4),   TO(4), KC_NO, KC_NO, KC_NO, KC_RCTRL, KC_NO,
+               LT(1,KC_SPACE), KC_LGUI, KC_NO,   KC_NO, KC_NO, LT(2,KC_BSPACE)
   ),
   [1] = LAYOUT_expand(
     KC_NO_14
-    KC_NO,  KC_SLASH,     KC_BSLASH, KC_LPRN,     KC_RPRN,     KC____,           KC_NO,   KC_NO,   KC____,    KC____,  KC____,  KC____, KC____,   KC_NO,
-    KC_NO,  KC_UNDS,      KC_MINUS,  KC_LBRACKET, KC_RBRACKET, KC____,           KC____,  KC_NO,   KC_PGUP,   KC_LEFT, KC_DOWN, KC_UP,  KC_RIGHT, KC_NO,
-    KC_NO,  KC_PIPE,      KC____,    KC_LCBR,     KC_RCBR,     KC____,                             KC_PGDOWN, KC____,  KC____,  KC____, KC____,   KC_NO,
-    KC_NO,  LGUI(KC_TAB), KC____,    KC_NO,       KC_NO,       LGUI(LSFT(KC_4)),                   KC____,    KC_NO,   KC_NO,   KC____, KC____,   KC_NO,
-                                                  KC____,      KC____,           KC____,  KC____,  KC____,    KC____
+    KC_NO, KC_SLASH, KC_BSLASH, KC_LPRN,     KC_RPRN,     KC___,           KC_NO,   KC_NO, KC_NO,     KC_HOME, KC_NO,   KC_NO, KC_END,   KC_NO,
+    KC_NO, KC_UNDS,  KC_MINUS,  KC_LBRACKET, KC_RBRACKET, KC___,           KC_NO,   KC_NO, KC_PGUP,   KC_LEFT, KC_DOWN, KC_UP, KC_RIGHT, KC_NO,
+    KC_NO, KC_PIPE,  KC___,     KC_LCBR,     KC_RCBR,     KC___,                           KC_PGDOWN, KC_NO,   KC_NO,   KC_NO, KC_NO,    KC_NO,
+    KC_NO, KC___,    KC___,     KC_NO,       KC_NO,       LGUI(LSFT(KC_4)),                KC___,     KC_NO,   KC_NO,   KC_NO, KC___,    KC_NO,
+                                             KC___,       KC___,           KC_NO,   KC_NO, KC_NO,     KC___
   ),
   [2] = LAYOUT_expand(
     KC_NO_14
-    KC_NO,  NUMBER_2L    KC_NO,    KC_NO, NUMBER_2R    KC_NO,
-    KC_NO,  NUMBER_1L    KC____,   KC_NO, NUMBER_1R    KC_NO,
-    KC_NO,  NUMBER_3L                     NUMBER_3R    KC_NO,
-    KC_NO,  KC____,  KC____, KC_NO, KC_NO, KC____,                  KC____, KC_NO, KC_NO, KC____, KC____, KC_NO,
-                                   KC____, KC____, KC____,  KC____, KC____, KC____
+    KC_NO, NUMBER_1L  KC_NO,   KC_NO, NUMBER_1R  KC_NO,
+    KC_NO, NUMBER_2L  KC_NO,   KC_NO, NUMBER_2R  KC_NO,
+    KC_NO, NUMBER_3L                  NUMBER_3R  KC_NO,
+    KC_NO, KC___, KC___, KC_NO, KC_NO, KC___,                KC___, KC_NO, KC_NO, KC_NO, KC___, KC_NO,
+                                KC___, KC___, KC_NO,  KC_NO, KC_NO, KC___
   ),
   [3] = LAYOUT_expand(
     KC_NO_14
-    KC_NO, KC_F8,  KC_F7,  KC_F6,  KC_F5,  WEBUSB_PAIR, KC_NO, KC_NO,  KC_AUDIO_VOL_UP,   KC_AUDIO_MUTE, KC____, KC____, RESET,  KC_NO,
-    KC_NO, KC_F4,  KC_F3,  KC_F2,  KC_F1,  KC_NO,       KC_NO, KC_NO,  KC_AUDIO_VOL_DOWN, KC____,        KC____, KC____, KC____, KC_NO,
-    KC_NO, KC_F12, KC_F11, KC_F10, KC_F9,  KC_NO,                      KC____,            KC____,        KC____, KC____, KC____, KC_NO,
-    KC_NO, KC____, KC____, KC_NO,  KC_NO,  KC____,                     KC____,            KC_NO,         KC_NO,  KC____, KC____, KC_NO,
-                                   KC____, KC____,     KC____, KC____, KC____, KC____
+    KC_NO, FKEYS_1L KC_NO,  KC_NO, FKEYS_1R KC_NO,
+    KC_NO, FKEYS_2L KC_NO,  KC_NO, FKEYS_2R KC_NO,
+    KC_NO, FKEYS_3L                FKEYS_3R KC_NO,
+    KC_NO, KC___, KC___, KC_NO, KC_NO, KC___,                KC___,  KC_NO, KC_NO, KC_NO, KC___, KC_NO,
+                                KC___, KC___, KC_NO,  KC_NO, KC_NO,  KC___
   ),
   [4] = LAYOUT_expand(
     KC_NO_14
-    KC_NO, KC_NO, KC_NO,       KC_NO, KC_NO,   TOGGLE_LAYER_COLOR, KC_NO,  KC_NO,  MU_TOG,         KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
-    KC_NO, KC_NO, TD(DANCE_0), KC_NO, KC_NO,   KC_NO,              KC_NO,  KC_NO,  MU_MOD,         KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
-    KC_NO, KC_NO, KC_NO,       KC_NO, KC_NO,   RGB_TOG,                            MOON_LED_LEVEL, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
-    KC_NO, KC_NO, KC_NO,       KC_NO, KC_NO,   KC_NO,                              KC_NO,          KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
-                                      RGB_MOD, KC_NO,              KC_NO,  KC_NO,  KC_NO,          KC_NO
+    KC_NO, KC_NO, KC_NO,       KC_NO, KC_NO,   LYR_CLR, KC_NO,  KC_NO,  MU_TOG,    KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
+    KC_NO, KC_NO, TD(DANCE_0), KC_NO, KC_NO,   KC_NO,   KC_NO,  KC_NO,  MU_MOD,    KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
+    KC_NO, KC_NO, KC_NO,       KC_NO, KC_NO,   RGB_TOG,                 LED_LEVEL, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
+    KC_NO, KC_NO, KC_NO,       KC_NO, KC_NO,   KC_NO,                   KC_NO,     KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
+                                      RGB_MOD, KC_NO,   KC_NO,  KC_NO,  KC_NO,     KC_NO
   ),
 };
 
@@ -135,20 +137,20 @@ const uint8_t PROGMEM ledmap[][DRIVER_LED_TOTAL][3] = {
 
     [3] = {
         {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0},
-        {0,0,0}, {134,255,213}, {134,255,213}, {134,255,213}, {0,0,0},
-        {0,0,0}, {134,255,213}, {134,255,213}, {134,255,213}, {0,0,0},
-        {0,0,0}, {134,255,213}, {134,255,213}, {134,255,213}, {0,0,0},
-        {0,0,0}, {134,255,213}, {134,255,213}, {134,255,213}, {0,0,0},
+        {0,0,0}, {0,0,0}, {134,255,213}, {0,0,0}, {0,0,0},
+        {0,0,0}, {0,0,0}, {134,255,213}, {0,0,0}, {0,0,0},
+        {0,0,0}, {0,0,0}, {134,255,213}, {0,0,0}, {0,0,0},
+        {0,0,0}, {134,255,213}, {134,255,213}, {0,0,0}, {0,0,0},
         {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0},
         {0,0,0}, {0,0,0}, {0,0,0},
         {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0},
 
         {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0},
-        {0,0,0}, {134,255,213}, {0,0,0}, {0,0,0}, {0,0,0},
-        {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0},
-        {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0},
-        {0,0,0}, {134,255,213}, {0,0,0}, {0,0,0}, {0,0,0},
-        {0,0,0}, {134,255,213}, {134,255,213}, {0,0,0},
+        {0,0,0}, {134,255,213}, {134,255,213}, {0,0,0}, {0,0,0},
+        {0,0,0}, {134,255,213}, {134,255,213}, {0,0,0}, {0,0,0},
+        {0,0,0}, {0,0,0}, {134,255,213}, {0,0,0}, {0,0,0},
+        {0,0,0}, {0,0,0}, {134,255,213}, {134,255,213}, {0,0,0},
+        {0,0,0}, {134,255,213}, {134,255,213}, {134,255,213},
         {0,0,0}, {0,0,0}, {0,0,0},
         {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}
     },
@@ -161,7 +163,7 @@ const uint8_t PROGMEM ledmap[][DRIVER_LED_TOTAL][3] = {
         {0,0,0}, {0,255,240}, {0,255,240}, {0,255,240}, {0,0,0},
         {0,0,0}, {31,255,255}, {0,255,240}, {31,255,255},
         {0,0,0}, {0,0,0}, {0,0,0},
-        {31,255,255}, {0,255,240}, {0,255,240}, {0,255,240},
+        {31,255,255}, {0,255,240}, {0,0,0}, {0,255,240},
 
         {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0},
         {0,0,0}, {0,255,240}, {0,255,240}, {0,255,240}, {0,255,240},
@@ -170,7 +172,7 @@ const uint8_t PROGMEM ledmap[][DRIVER_LED_TOTAL][3] = {
         {0,0,0}, {0,255,240}, {0,255,240}, {0,255,240}, {0,0,0},
         {0,0,0}, {31,255,255}, {31,255,255}, {31,255,255},
         {0,0,0}, {0,0,0}, {0,0,0},
-        {0,255,240}, {0,255,240}, {0,255,240}, {0,255,240}
+        {0,255,240}, {0,0,0}, {0,0,0}, {0,255,240}
     },
 
 };
@@ -279,3 +281,35 @@ void dance_0_reset(qk_tap_dance_state_t *state, void *user_data) {
 qk_tap_dance_action_t tap_dance_actions[] = {
         [DANCE_0] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, dance_0_finished, dance_0_reset),
 };
+
+    uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
+        switch (keycode) {
+            // Faster for Shift modtaps
+            case RSFT_T(KC_Z):
+                return 180;
+            case LSFT_T(KC_SCLN):
+                return 210;
+            // Slow for CTRL modtaps
+            case LCTL_T(KC_Q):
+            case RCTL_T(KC_V):
+                // return 2000;
+            // Even slower for ALT modtaps
+            case LALT_T(KC_J):
+            case RALT_T(KC_W):
+                return 1600;
+            default:
+                return 210;
+        }
+    }
+
+bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case LCTL_T(KC_Q):
+        case RCTL_T(KC_V):
+        case LALT_T(KC_J):
+        case RALT_T(KC_W):
+            return false;
+        default:
+            return true;
+    }
+}

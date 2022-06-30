@@ -7,8 +7,7 @@ enum layers {
   _BASE,
   _NAV,
   _NUM,
-  _FORT,
-  _FIVE
+  _FKEY
 };
 
 #ifndef NO_STANDARD_KEYMAPS
@@ -29,7 +28,7 @@ enum layers {
     #define CT_V RCTL_T(KC_V)
 
     #define AT_J LALT_T(KC_J)
-    #define AT_W RALT_T(KC_V)
+    #define AT_W RALT_T(KC_W)
 
     /* Layers, in sets of 5 keys (per hand) */
     #define DVORAK_1L    KC_QUOT, KC_COMM, KC_DOT,  KC_P,    KC_Y,
@@ -54,11 +53,19 @@ enum layers {
     #define SYMNAV_2R    KC_NO,   KC_LEFT, KC_DOWN, KC_UP,   KC_RGHT,
     #define SYMNAV_3R    KC_NO,   KC_HOME, KC_PGDN, KC_PGUP, KC_END,
 
-    #define NUMBER_1L    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,
-    #define NUMBER_2L    KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC,
+    #define NUMBER_1L    KC_EXLM, KC_AT,   KC_HASH, KC_DLR,  KC_PERC,
+    #define NUMBER_2L    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,
     #define NUMBER_3L    KC_QUES, KC_LCBR, KC_LBRC, KC_LPRN, KC_UNDS,
 
-    #define NUMBER_1R    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,
-    #define NUMBER_2R    KC_CIRC, KC_AMPR, KC_ASTR, KC_EQL,  KC_PLUS,
-    #define NUMBER_3R    KC_GRV, KC_RPRN, KC_RBRC, KC_RCBR, KC_MINS,
+    #define NUMBER_1R    KC_CIRC, KC_AMPR, KC_ASTR, KC_EQL,  KC_PLUS,
+    #define NUMBER_2R    KC_6,    KC_7,    KC_8,    KC_9,    KC_0,
+    #define NUMBER_3R    KC_GRV,  KC_RPRN, KC_RBRC, KC_RCBR, KC_MINS,
+
+    #define FKEYS_1L     KC_NO, KC_NO, KC_NO, KC_NO, RESET,
+    #define FKEYS_2L     KC_F1, KC_F2, KC_F3, KC_F4, KC_F5,
+    #define FKEYS_3L     KC_NO, KC_NO, KC_NO, KC_NO, KC_NO,
+
+    #define FKEYS_1R     KC_AUD_UP, KC_NO,    KC_NO, KC_F11, KC_F12,
+    #define FKEYS_2R     KC_F6,     KC_F7,    KC_F8, KC_F9,  KC_F10,
+    #define FKEYS_3R     KC_AUD_DN, KC_AUD_M, KC_NO, KC_NO,  KC_NO,
 #endif

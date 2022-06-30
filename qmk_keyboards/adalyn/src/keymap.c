@@ -7,9 +7,9 @@
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_BASE] = LAYOUT_expand( /* Dvorak */
-    DVORAK_1L DVORAK_1R
-    DVORAK_2L DVORAK_2R
-    DVORAK_3LSC DVORAK_3RS
+    DVORAK_1L    DVORAK_1R
+    DVORAK_2L    DVORAK_2R
+    DVORAK_3LSCA DVORAK_3RSCA
     KC_TAB,  KC_LGUI, KC_SPC1,   KC_BSP2, KC_RSFT,  KC_DEL),
 
   [_NAV] = LAYOUT_expand( /* Symbols and Nav */

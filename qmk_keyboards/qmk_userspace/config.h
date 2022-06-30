@@ -1,10 +1,8 @@
 #pragma once
 
-#ifdef MODTAPS
+#ifdef BOTTOM_ROW_MODS
     #define IGNORE_MOD_TAP_INTERRUPT
-    #define TAPPING_TERM 210
     #define TAPPING_TERM_PER_KEY
-    #define PERMISSIVE_HOLD
 #endif
 
 #ifdef COMBO_ENABLE

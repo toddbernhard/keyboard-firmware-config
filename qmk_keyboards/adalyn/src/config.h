@@ -1,4 +1,4 @@
 #pragma once
 
-#define MODTAPS
-#define TEST_SOME
+#define BOTTOM_ROW_MODS
+#define TEST_MORE_COMBOS
