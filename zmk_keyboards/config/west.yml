@@ -1,0 +1,13 @@
+manifest:
+  remotes:
+    - name: zmkfirmware
+      url-base: https://github.com/zmkfirmware
+    - name: pj
+      url-base: https://github.com/petejohanson
+  projects:
+    - name: zmk
+      remote: pj
+      revision: behaviors/macro-parameters
+      import: app/west.yml
+  self:
+    path: config

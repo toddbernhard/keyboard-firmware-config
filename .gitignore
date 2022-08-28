@@ -1,2 +1,3 @@
 *.bin
 *.iml
+zmk_keyboards/build/

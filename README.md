@@ -1,4 +1,4 @@
-Custom keymaps for a variety of smol boards.
+Custom keymaps for a variety of small boards.
 
-They are grouped by firmware ... just QMK to start.
+They are grouped by firmware.
 See the subdirectory for specific build instructions.

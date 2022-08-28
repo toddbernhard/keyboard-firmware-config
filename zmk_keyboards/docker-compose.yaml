@@ -1,0 +1,6 @@
+services:
+  zmk-build:
+    build: .
+    volumes:
+    - ./build:/build
+    command: cp ble_chiffre.uf2 /build/
